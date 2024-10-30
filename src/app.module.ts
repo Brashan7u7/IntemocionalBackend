@@ -20,6 +20,8 @@ import { ProfessionalService } from './professional/professional.service';
 import { AppointmentService } from './appointment/appointment.service';
 import { AdminService } from './admin/admin.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule, jwtConstants } from './auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -35,11 +37,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: true,
     }),
     UserModule,
+    JwtModule.register({
+      global: true,
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '900s' },
+    }),
     ServiceModule,
     ReviewModule,
     ProfessionalModule,
     AppointmentModule,
     AdminModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

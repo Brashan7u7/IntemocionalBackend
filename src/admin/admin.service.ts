@@ -19,6 +19,16 @@ export class AdminService {
     return this.adminRepository.find();
   }
 
+  async findOneEmail(email: string): Promise<Admin> {
+    const admin = await this.adminRepository.findOne({ where: { email } });
+
+    if (!admin) {
+      throw new NotFoundException(`Admin with email ${email} not found`);
+    }
+
+    return admin;
+  }
+
   async delete(id: number): Promise<void> {
     const result = await this.adminRepository.delete(id);
 

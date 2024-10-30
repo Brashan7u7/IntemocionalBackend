@@ -42,7 +42,7 @@ export class professionalDto {
 
   @IsNumber()
   @IsOptional()
-  id_admin: number;
+  id_admin: number ;
 
   serviceIds?: number[];
 }
