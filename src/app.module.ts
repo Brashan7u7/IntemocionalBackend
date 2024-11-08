@@ -1,24 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UserController } from './user/user.controller';
-import { ReviewController } from './review/review.controller';
-import { AdminController } from './admin/admin.controller';
-import { AppointmentController } from './appointment/appointment.controller';
-import { ProfessionalController } from './professional/professional.controller';
-import { ServiceController } from './service/service.controller';
 import { UserModule } from './user/user.module';
 import { ServiceModule } from './service/service.module';
 import { ReviewModule } from './review/review.module';
 import { ProfessionalModule } from './professional/professional.module';
 import { AppointmentModule } from './appointment/appointment.module';
 import { AdminModule } from './admin/admin.module';
-import { UserService } from './user/user.service';
-import { ServiceService } from './service/service.service';
-import { ReviewService } from './review/review.service';
-import { ProfessionalService } from './professional/professional.service';
-import { AppointmentService } from './appointment/appointment.service';
-import { AdminService } from './admin/admin.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule, jwtConstants } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
@@ -39,8 +25,8 @@ import { JwtModule } from '@nestjs/jwt';
     UserModule,
     JwtModule.register({
       global: true,
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '900s' },
+      secret: process.env.JWT_SECRET || 'TeExtranoNicoleunu',
+      signOptions: { expiresIn: '1h' },
     }),
     ServiceModule,
     ReviewModule,

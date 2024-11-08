@@ -6,6 +6,7 @@ import { professionalDto } from './dto/professionalDto.dto';
 import { Admin } from 'src/admin/entity/admin.entity';
 import { Service } from 'src/service/entity/service.entity';
 import { AppointmentService } from 'src/appointment/appointment.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class ProfessionalService {
@@ -26,9 +27,19 @@ export class ProfessionalService {
     if (!adminFind) {
       throw new NotFoundException('Admin no encontrado');
     }
-    const body = this.professionalRepository.create(CreateProfessionalDto);
-    body.admin = adminFind;
-    return this.professionalRepository.save(body);
+
+    const professional = this.professionalRepository.create(
+      CreateProfessionalDto,
+    );
+
+    const saltRounds = 10;
+    professional.password = await bcrypt.hash(
+      CreateProfessionalDto.password,
+      saltRounds,
+    );
+
+    professional.admin = adminFind;
+    return this.professionalRepository.save(professional);
   }
 
   async addServiceToProfessional(
