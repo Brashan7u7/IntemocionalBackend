@@ -13,6 +13,7 @@ import { ServiceService } from 'src/service/service.service';
 import { ReviewService } from 'src/review/review.service';
 import { UserService } from 'src/user/user.service';
 
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([Professional, Admin, Service, Review, User]),
@@ -24,7 +25,9 @@ import { UserService } from 'src/user/user.service';
     ServiceService,
     ReviewService,
     UserService,
+    
   ],
   controllers: [ProfessionalController],
+  exports: [ProfessionalService],
 })
 export class ProfessionalModule {}

@@ -127,4 +127,16 @@ export class ProfessionalService {
 
     await this.professionalRepository.save(professional);
   }
+
+  async findOneEmail(email: string): Promise<Professional> {
+    const professional = await this.professionalRepository.findOne({
+      where: { email },
+    });
+
+    if (!professional) {
+      throw new NotFoundException(`Professional with email ${email} not found`);
+    }
+
+    return professional;
+  }
 }

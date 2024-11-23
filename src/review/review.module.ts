@@ -12,6 +12,7 @@ import { AdminService } from 'src/admin/admin.service';
 import { Service } from 'src/service/entity/service.entity';
 import { ServiceService } from 'src/service/service.service';
 import { AppointmentModule } from 'src/appointment/appointment.module'; // Importar AppointmentModule para resolver AppointmentService
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Module({
   imports: [

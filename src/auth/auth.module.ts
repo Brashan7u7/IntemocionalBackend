@@ -1,18 +1,26 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { AdminModule } from 'src/admin/admin.module';
+import { AuthGuard } from './auth.guard';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './jwt.constants.secret'; 
+import { UserModule } from 'src/user/user.module';
+import { ProfessionalModule } from 'src/professional/professional.module';
 
 @Module({
-  imports: [AdminModule],
+  imports: [
+    forwardRef(() => AdminModule),
+    forwardRef(() => UserModule),
+    forwardRef(() => ProfessionalModule),
+    JwtModule.register({
+      secret: 'Clavesecreta',
+      signOptions: { expiresIn: '1h' }, 
+    }),
+  ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard],
+  exports: [AuthGuard, JwtModule], 
 })
 export class AuthModule {}
-
-import * as dotenv from 'dotenv';
-dotenv.config();
-
-export const jwtConstants = {
-  secret: process.env.JWT_SECRET,
-};
+export { jwtConstants };

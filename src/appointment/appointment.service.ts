@@ -58,4 +58,42 @@ export class AppointmentService {
       throw new NotFoundException(`Appointment with id ${id} not found`);
     }
   }
+
+  
+
+  async updateone(id: number, updateAppointmentDto: appointmentDto): Promise<Appointment> {
+    const appointment = await this.appointmentRepository.findOne({
+      where: { id_appointment: id },
+    });
+    
+    if (!appointment) {
+      throw new NotFoundException(`Appointment with id ${id} not found`);
+    }
+
+    const professionalFind = await this.professionalRepository.findOne({
+      where: { id_professional: updateAppointmentDto.id_professional },
+    });
+    const userFind = await this.userRepository.findOne({
+      where: { id_user: updateAppointmentDto.id_user },
+    });
+    if (updateAppointmentDto.id_professional && !professionalFind) {
+      throw new NotFoundException(`Professional not found`);
+    }
+    if (updateAppointmentDto.id_user && !userFind) {
+      throw new NotFoundException(`User not found`);
+    }
+
+    // Actualizar solo los campos proporcionados en el cuerpo de la solicitud.
+    if (updateAppointmentDto.id_professional) {
+      appointment.professional = professionalFind;
+    }
+    if (updateAppointmentDto.id_user) {
+      appointment.user = userFind;
+    }
+    if (updateAppointmentDto.appointment_status) {
+      appointment.appointment_status = updateAppointmentDto.appointment_status;
+    }
+
+    return this.appointmentRepository.save(appointment);
+  }
 }

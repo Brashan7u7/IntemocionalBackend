@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { AppointmentService } from './appointment.service';
 import { appointmentDto } from './dto/appointmentDto.dto';
 import { Appointment } from './entity/appointment.entity';
@@ -21,5 +29,13 @@ export class AppointmentController {
   async delete(@Param('id') id: number) {
     await this.appointmentService.delete(id);
     return { message: `Appointment with id ${id} delete successfully` };
+  }
+
+  @Patch(':id')
+  async updateone(
+    @Param('id') id: number,
+    @Body() appointmentdto: appointmentDto,
+  ): Promise<Appointment> {
+    return this.appointmentService.updateone(id, appointmentdto);
   }
 }

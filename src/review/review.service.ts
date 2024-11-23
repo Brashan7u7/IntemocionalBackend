@@ -58,4 +58,45 @@ export class ReviewService {
       throw new NotFoundException('Review no encontrada');
     }
   }
+
+  async update(id: number, updateReviewDto: reviewDto): Promise<Review> {
+    const review = await this.reviewRepository.findOne({
+      where: { id_review: id },
+    });
+
+    if (!review) {
+      throw new NotFoundException('Review no encontrada');
+    }
+
+    if (updateReviewDto.rating) {
+      review.rating = updateReviewDto.rating;
+    }
+
+    if (updateReviewDto.date) {
+      review.date = new Date(updateReviewDto.date);
+    }
+
+    if (updateReviewDto.id_user) {
+      const userFind = await this.userRepository.findOne({
+        where: { id_user: updateReviewDto.id_user },
+      });
+      if (userFind) review.user = userFind;
+    }
+    if (updateReviewDto.id_professional) {
+      const professionalFind = await this.professionalRepository.findOne({
+        where: { id_professional: updateReviewDto.id_professional },
+      });
+      if (professionalFind) review.professional = professionalFind;
+    }
+    if (updateReviewDto.id_admin) {
+      const adminFind = await this.adminRepository.findOne({
+        where: { id_admin: updateReviewDto.id_admin },
+      });
+      if (adminFind) review.admin = adminFind;
+    }
+
+    return this.reviewRepository.save(review);
+  }
+  
+  
 }

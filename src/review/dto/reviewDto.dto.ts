@@ -13,19 +13,19 @@ export class reviewDto {
   id_review: number;
 
   @IsNumber()
-  @IsNotEmpty()
+  @IsOptional()
   rating: number;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   date: string;
 
   @IsNumber()
-  @IsNotEmpty()
+  @IsOptional()
   id_user: number;
 
   @IsNumber()
-  @IsNotEmpty()
+  @IsOptional()
   id_professional: number;
 
   @IsNumber()

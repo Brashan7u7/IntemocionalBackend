@@ -8,26 +8,26 @@ export class appointmentDto {
 
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   end_time: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   starting_time: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   appointment_status: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   color: string;
 
   @IsNumber()
-  @IsNotEmpty()
+  @IsOptional()
   id_professional: number;
 
   @IsNumber()
-  @IsNotEmpty()
+  @IsOptional()
   id_user: number;
 }
